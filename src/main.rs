@@ -8,6 +8,7 @@ use std::{ffi::CStr, process::Stdio};
 use clap::Parser;
 use regex::Regex;
 
+#[cfg(target_arch = "x86_64")]
 #[unsafe(export_name = "__tls_get_addr@@GLIBC_2.3")]
 pub fn glibc_tls_stub() { }
 
