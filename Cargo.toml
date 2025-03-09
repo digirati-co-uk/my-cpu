@@ -1,0 +1,16 @@
+[package]
+name = "my-cpu"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.31", features = ["derive"] }
+llvm-sys = { version = "=191.0.0", features = ["force-static"]}
+regex = "1.11.1"
+
+[profile.release]
+lto = "fat"
+opt-level = "z"
+strip = true  # Automatically strip symbols from the binary.
+codegen-units = 1
+panic = "abort"
