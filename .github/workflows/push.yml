@@ -22,8 +22,10 @@ jobs:
         platform:
           - docker: linux/amd64
             runner: ubuntu-24.04
+            rust: x86_64-unknown-linux-gnu
           - docker: linux/arm64
             runner: ubuntu-24.04-arm
+            rust: aarch64-unknown-linux-gnu
     steps:
       - name: Prepare
         run: |
@@ -62,6 +64,8 @@ jobs:
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:cache
           cache-to: type=inline
+          build-args:
+            TARGET=${{ matrix.platform.rust }}
 
       - name: Export digest
         run: |

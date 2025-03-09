@@ -8,13 +8,14 @@ ENV RUSTUP_HOME=/usr/local/rustup \
     PATH=/usr/local/cargo/bin:$PATH \
     RUST_VERSION=1.85.0
 
+ARG TARGET
 WORKDIR /work
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/usr/local/rustup \
     --mount=type=bind,target=/work,rw \
     curl https://sh.rustup.rs -sSf | bash -s -- -y --default-toolchain "${RUST_VERSION}" && \
     rustup install stable && \
-    cargo build --locked --release && \
+    RUSTFLAGS='-C target-feature=+crt-static' cargo build --locked --release --target ${TARGET} && \
     mkdir /out/ && mv /work/target/${TARGET}/release/my-cpu /out/
 
 FROM scratch
