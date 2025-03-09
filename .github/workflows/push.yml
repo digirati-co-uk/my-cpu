@@ -63,7 +63,7 @@ jobs:
           tags: ${{ env.REGISTRY_IMAGE }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
           cache-from: type=registry,ref=${{ env.REGISTRY_IMAGE }}:cache
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:cache,mode=max
           build-args:
             TARGET=${{ matrix.platform.rust }}
 
